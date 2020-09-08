@@ -37,12 +37,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
 //CONNECTIONS TO DB
-// mongoose.connect('mongodb://localhost:27017/yelp_camp', {
-mongoose.connect('mongodb+srv://mazzoq:ghouse89@cluster0.srlcb.mongodb.net/<dbname>?retryWrites=true&w=majority', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+mongoose.connect(process.env.DATABASEURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
 .then(() => console.log('Connected to DB!'))
 .catch(error => console.log(error.message));
@@ -67,6 +65,7 @@ app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 //PUT ONLINE
-app.listen(process.env.PORT || 3000, process.env.IP, () => {
-    console.log(" yelpCamp server is live");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, process.env.IP, () => {
+    console.log(`Our app is running on port ${ PORT }`);
 });
